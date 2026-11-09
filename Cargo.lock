@@ -1144,6 +1144,29 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dc0b364ead1874514c8c2855ab558056ebfeb775653e7ae45ff72f28f8f3166c"
 
 [[package]]
+name = "brief-harness"
+version = "0.8.7"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "clap",
+ "hex",
+ "nanohtml2text",
+ "reqwest 0.12.28",
+ "serde",
+ "serde_json",
+ "sha2 0.10.9",
+ "similar 2.7.0",
+ "tempfile",
+ "tokio",
+ "toml 1.1.2+spec-1.1.0",
+ "url",
+ "uuid",
+ "wiremock",
+ "zeroclaw-config",
+]
+
+[[package]]
 name = "brotli"
 version = "8.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
