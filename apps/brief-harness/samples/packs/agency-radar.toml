@@ -1,0 +1,42 @@
+# Competitor and website radar for agencies serving home-service trades
+# (HVAC, plumbing, electrical).
+#
+# All sources are placeholders. Point them at the public pages of the
+# competitors the agency's client actually names: service pages, offers,
+# financing, and locations. Watch only pages you are permitted to monitor.
+
+id = "agency-radar"
+name = "Competitor radar for home-service contractors"
+description = "What named competitors changed this week in offers, services, pricing, and coverage."
+max_items = 5
+
+[analyst]
+instructions = """
+The reader is a marketing agency account lead for a local HVAC, plumbing, or
+electrical contractor. Keep: new or ended promotions, price or financing
+changes, new services, new service areas or locations, guarantees, and hiring
+pushes. Drop: blog posts, cookie banners, testimonials rotating, and layout
+changes.
+"""
+
+[writer]
+instructions = """
+Name the competitor first, then what changed. One sentence on the move the
+agency's client might consider in response. Do not estimate prices,
+dates, or results the quote does not state.
+"""
+
+[[sources]]
+id = "competitor-a-offers"
+label = "Competitor A specials page (replace)"
+url = "https://competitor-a.example.com/specials"
+
+[[sources]]
+id = "competitor-a-services"
+label = "Competitor A services page (replace)"
+url = "https://competitor-a.example.com/services"
+
+[[sources]]
+id = "competitor-b-offers"
+label = "Competitor B promotions page (replace)"
+url = "https://competitor-b.example.com/promotions"

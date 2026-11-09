@@ -1,0 +1,45 @@
+# Security-advisory intelligence for MSPs and their clients.
+#
+# Public advisory feeds only. Matching an advisory to a specific client's
+# software inventory needs that client's confidential data and is out of
+# scope for this pack; see AI_PROJECT_SPEC.md (P1, local inventory overlay).
+#
+# The CISA KEV feed URL was checked on 2026-11-08. The vendor feeds below it
+# are placeholders: replace them with the advisory pages your clients' stack
+# actually needs, and keep each one a stable, public HTTPS URL.
+
+id = "msp-advisories"
+name = "Exploited-vulnerability brief for MSPs"
+description = "New actively exploited vulnerabilities and vendor advisories an MSP should act on this week."
+max_items = 5
+
+[analyst]
+instructions = """
+The reader runs IT for small businesses. Keep: newly added actively exploited
+vulnerabilities, emergency patches, and advisories for products common in
+small-business estates (Windows, Microsoft 365, firewalls, VPNs, remote
+monitoring and management tools, backup software). Drop: editorial changes,
+page furniture, and advisories for products a small business would not run.
+"""
+
+[writer]
+instructions = """
+Lead each item with the vendor and product, then the action and its due date
+if the quote gives one. One sentence on why it matters to an MSP's clients.
+Never infer severity, exploitation, or affected versions beyond the quote.
+"""
+
+[[sources]]
+id = "cisa-kev"
+label = "CISA Known Exploited Vulnerabilities catalog"
+url = "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+
+[[sources]]
+id = "vendor-firewall"
+label = "Firewall vendor advisories (replace)"
+url = "https://advisories.example.com/firewall"
+
+[[sources]]
+id = "vendor-rmm"
+label = "RMM vendor security bulletins (replace)"
+url = "https://advisories.example.com/rmm"

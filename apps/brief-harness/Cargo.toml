@@ -1,0 +1,48 @@
+[package]
+name = "brief-harness"
+version.workspace = true
+homepage.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Autonomous cited-brief harness: runs vertical packs through ZeroClaw agents behind deterministic citation verification, per-model monthly budget caps, approval or autonomous delivery, and a hash-chained audit log."
+publish = false
+
+[[bin]]
+name = "brief-harness"
+path = "src/main.rs"
+
+[lib]
+name = "brief_harness"
+path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1.0"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std", "serde"] }
+clap = { version = "4.5", features = ["derive", "env"] }
+hex = "0.4"
+# HTML to plain text before hashing and diffing, so markup churn (nonces,
+# script bundles) does not register as a change. Already in the tree through
+# zeroclaw-tools.
+nanohtml2text = "0.2"
+# Same TLS posture as the rest of the workspace: rustls with the ring provider
+# and webpki roots, no native-tls.
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls-webpki-roots-no-provider", "__rustls-ring"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sha2 = "0.10"
+# Line diff between normalized snapshots. Already in the tree.
+similar = "2"
+tokio = { version = "1.50", default-features = false, features = ["rt", "macros", "fs", "time"] }
+toml = "1.0"
+url = { version = "2.5", features = ["serde"] }
+uuid = { version = "1.22", default-features = false, features = ["v4", "std"] }
+# The cost ledger schema is owned by zeroclaw-config. The budget guard parses
+# the daemon's ledger with that type instead of a private copy, so a schema
+# change upstream is a compile error here rather than silent misreads.
+zeroclaw-config = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3.26"
+wiremock = "0.6"
+tokio = { version = "1.50", default-features = false, features = ["rt", "macros", "fs", "time", "rt-multi-thread"] }

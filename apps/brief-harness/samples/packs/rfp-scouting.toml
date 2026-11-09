@@ -1,0 +1,38 @@
+# Public RFP and grant scouting.
+#
+# All sources are placeholders. Use public bid boards and grant listings that
+# do not require a login or an API key, and whose terms allow monitoring.
+
+id = "rfp-scouting"
+name = "RFP and grant scouting"
+description = "New public procurement notices and grants a small IT services firm could pursue."
+max_items = 5
+
+[analyst]
+instructions = """
+The reader is a small IT services or managed services firm. Keep: new
+solicitations, amendments that change a deadline or scope, and new grant
+programs for technology, broadband, or cybersecurity. Drop: awards already
+made, closed notices, and non-technology work.
+"""
+
+[writer]
+instructions = """
+Lead with the issuing body and what is being bought, then the deadline and
+value if the quote states them. One sentence on fit for a small IT firm.
+"""
+
+[[sources]]
+id = "city-bids"
+label = "City bid board (replace)"
+url = "https://bids.example.gov/open"
+
+[[sources]]
+id = "county-bids"
+label = "County procurement notices (replace)"
+url = "https://procurement.example.gov/notices"
+
+[[sources]]
+id = "state-grants"
+label = "State grant listings (replace)"
+url = "https://grants.example.gov/list"
