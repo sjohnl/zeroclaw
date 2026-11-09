@@ -1,0 +1,65 @@
+# Example brief-harness configuration. Relative paths resolve against this
+# file's directory. Secrets are never stored here: set the variables named by
+# `token_env`.
+
+state_dir = "state"
+packs_dir = "packs"
+
+[zeroclaw]
+# Loopback plain HTTP is allowed; anything remote must be https.
+gateway_url = "http://127.0.0.1:42617"
+# Gateway pairing token for the A2A endpoint.
+token_env = "BRIEF_HARNESS_ZEROCLAW_TOKEN"
+# The daemon's cost ledger: <zeroclaw workspace>/state/costs.jsonl.
+cost_ledger = "/Users/zeroclaw/.zeroclaw/workspace/state/costs.jsonl"
+agent_timeout_secs = 180
+
+# One ZeroClaw agent per role. `model` must match the model id the daemon
+# records in its cost ledger; each model has its own monthly cap. The
+# verifier must be a different vendor from the writer.
+[roles.analyst]
+agent = "brief_analyst"
+model = "claude-haiku-4-5"
+vendor = "anthropic"
+
+[roles.writer]
+agent = "brief_writer"
+model = "claude-sonnet-4-5"
+vendor = "anthropic"
+
+[roles.verifier]
+agent = "brief_verifier"
+model = "gpt-5-mini"
+vendor = "openai"
+
+[budget]
+# Hard cap per model per UTC calendar month. Calls stop when a model's
+# remaining headroom falls below the reserve.
+monthly_cap_usd_per_model = 20.0
+reserve_usd_per_call = 0.25
+
+[fetch]
+timeout_secs = 20
+# The CISA KEV feed is a multi-megabyte JSON file.
+max_bytes = 8000000
+max_evidence_chars = 24000
+
+[[subscriptions]]
+id = "internal-msp-advisories"
+pack = "msp-advisories"
+# Sent as soon as citations and the cross-vendor review pass.
+delivery = "autonomous"
+destination = { kind = "outbox", dir = "outbox" }
+
+[[subscriptions]]
+id = "pilot-agency-radar"
+pack = "agency-radar"
+# Queued for `brief-harness approvals approve <id> --by <name>`.
+delivery = "approval"
+destination = { kind = "webhook", url = "https://hooks.example.com/briefs", token_env = "PILOT_AGENCY_WEBHOOK_TOKEN" }
+
+[[subscriptions]]
+id = "pilot-rfp"
+pack = "rfp-scouting"
+delivery = "approval"
+destination = { kind = "outbox", dir = "outbox" }

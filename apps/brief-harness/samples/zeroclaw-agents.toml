@@ -1,0 +1,61 @@
+# ZeroClaw config fragment for the three brief-harness role agents.
+# Merge into the daemon's config.toml (or set each path with
+# `zeroclaw config`), then reload the daemon.
+#
+# The role agents are pure text transforms. They get no tools and no agentic
+# loop, so text from a watched page has nothing to act on. All side effects
+# stay in brief-harness's deterministic code.
+
+# Expose agents over the gateway's A2A endpoint. Task calls still require the
+# gateway pairing token.
+[a2a.server]
+enabled = true
+
+# Read-only, tool-less risk profile shared by the role agents.
+[risk_profiles.brief_role]
+level = "readonly"
+deny_all_tools = true
+
+# No tool loop; ZeroClaw's own per-agent daily ceiling as a second budget
+# line under brief-harness's per-model monthly cap ($20 a month is about
+# 67 cents a day; 200 cents allows a busy day without letting one run away).
+[runtime_profiles.brief_role]
+agentic = false
+max_cost_per_day_cents = 200
+
+# Daemon-wide backstop: block, rather than warn, past the sum of the three
+# per-model caps.
+[cost]
+enabled = true
+monthly_limit_usd = 60.0
+track_per_agent = true
+
+[cost.enforcement]
+mode = "block"
+
+# Provider aliases are yours; the model ids below must match the `model`
+# values in brief-harness.toml and must have [cost.rates] entries, or the
+# budget guard refuses to spend (unpriced usage means unknown spend).
+[agents.brief_analyst]
+model_provider = "anthropic.haiku"
+risk_profile = "brief_role"
+runtime_profile = "brief_role"
+
+[agents.brief_analyst.a2a]
+published = true
+
+[agents.brief_writer]
+model_provider = "anthropic.sonnet"
+risk_profile = "brief_role"
+runtime_profile = "brief_role"
+
+[agents.brief_writer.a2a]
+published = true
+
+[agents.brief_verifier]
+model_provider = "openai.mini"
+risk_profile = "brief_role"
+runtime_profile = "brief_role"
+
+[agents.brief_verifier.a2a]
+published = true
